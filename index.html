@@ -20145,12 +20145,37 @@
       }
     }
 
+    // 4. Featured article card container check
     var artCards = document.querySelectorAll('#before-anyone-presses-record-card-1, [href*="before-anyone-presses-record"]');
     for (var f = 0; f < artCards.length; f++) {
       var cardNodes = artCards[f].querySelectorAll('*');
       for (var g = 0; g < cardNodes.length; g++) {
         if (cardNodes[g].children.length === 0 && cardNodes[g].textContent.trim() === 'Web Design') {
           cardNodes[g].textContent = 'Emotion';
+        }
+      }
+    }
+
+    // 5. Article details & Category section update from "Web Design" to "Emotion"
+    var catContainers = document.querySelectorAll('[data-framer-name="Category"], [data-framer-name="Details"], .framer-4d9fze');
+    for (var k = 0; k < catContainers.length; k++) {
+      var cNodes = catContainers[k].querySelectorAll('*');
+      for (var m = 0; m < cNodes.length; m++) {
+        var el = cNodes[m];
+        if (el.children.length === 0 && el.textContent.includes('Web Design')) {
+          el.textContent = el.textContent.replace(/Web Design/g, 'Emotion');
+        }
+      }
+    }
+
+    // Global pass for any standalone "Category: Web Design" or element with text "Web Design" inside article sections
+    var allP = document.querySelectorAll('p, span, div');
+    for (var h = 0; h < allP.length; h++) {
+      var pEl = allP[h];
+      if (pEl.children.length === 0) {
+        var str = pEl.textContent.trim();
+        if (str === 'Category: Web Design') {
+          pEl.textContent = 'Category: Emotion';
         }
       }
     }
@@ -20166,6 +20191,7 @@
   document.addEventListener('mouseenter', fixAll, true);
   document.addEventListener('mouseover', fixAll, true);
   document.addEventListener('mousemove', fixAll, true);
+  document.addEventListener('click', fixAll, true);
 
   var obs = new MutationObserver(fixAll);
   var root = document.getElementById('main') || document.body;
